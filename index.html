@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Routing from FE to BE</title>
+    <script src="https://unpkg.com/vue"></script>
+
+    <style>
+      .card {
+        border: 1px solid aqua;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="app">
+      <ul class="card" v-for="(product, index) in products">
+        <li><h3>Topic: {{product.topic}}</h3></li>
+        <li><h3>Location: {{product.location}}</h3></li>
+        <li><h3>Price: {{product.price}}</h3></li>
+      </ul>
+    </div>
+
+    <script type="text/javascript">
+      const lesson = new Vue({
+        el: "#app",
+        data: { products: []},
+        created: function () {
+          // this function will be run automatically
+          // when creating the Vue instance
+          fetch("http://localhost:3000/lessons").then(function (res) {
+            res.json().then(function (data) {
+              // save the returned JSON object to 'product'
+              // note that we used 'store.product' instead of 'this.product'
+              lesson.products = data;
+            });
+          });
+        },
+      });
+    </script>
+  </body>
+</html>
